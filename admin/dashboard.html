@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Painel Administrativo</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-dashboard">
+    <div id="loading-screen">
+        <div class="pizza-loader">
+            <div class="spinner">
+                <div class="pizza">
+                    <div class="crust"></div>
+                    <div class="pepperoni"></div>
+                    <div class="pepperoni"></div>
+                    <div class="pepperoni"></div>
+                    <div class="cheese"></div>
+                </div>
+            </div>
+            <p>Carregando painel administrativo...</p>
+        </div>
+    </div>
+
+    <div id="content" class="hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../images/logo.jpg" alt="Pizzaria Delícia" class="sidebar-logo">
+                <h2 class="sidebar-title">Pizzaria Delícia</h2>
+                <p class="sidebar-subtitle">Painel Administrativo</p>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <p class="menu-title">Menu Principal</p>
+                <a href="dashboard.html" class="menu-item active">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                
+                <p class="menu-title">Pedidos</p>
+                <a href="orders.html" class="menu-item">
+                    <i class="fas fa-shopping-cart"></i> Todos os Pedidos
+                </a>
+                <a href="orders.html?status=pending" class="menu-item">
+                    <i class="fas fa-clock"></i> Pendentes
+                    <span class="badge">3</span>
+                </a>
+                <a href="orders.html?status=processing" class="menu-item">
+                    <i class="fas fa-pizza-slice"></i> Em Preparo
+                    <span class="badge">5</span>
+                </a>
+                
+                <p class="menu-title">Cardápio</p>
+                <a href="products.html" class="menu-item">
+                    <i class="fas fa-pizza-slice"></i> Pizzas
+                </a>
+                <a href="categories.html" class="menu-item">
+                    <i class="fas fa-tags"></i> Categorias
+                </a>
+                <a href="ingredients.html" class="menu-item">
+                    <i class="fas fa-cheese"></i> Ingredientes
+                </a>
+                
+                <p class="menu-title">Clientes</p>
+                <a href="customers.html" class="menu-item">
+                    <i class="fas fa-users"></i> Todos os Clientes
+                </a>
+                <a href="reviews.html" class="menu-item">
+                    <i class="fas fa-star"></i> Avaliações
+                </a>
+                
+                <p class="menu-title">Relatórios</p>
+                <a href="reports-sales.html" class="menu-item">
+                    <i class="fas fa-chart-line"></i> Vendas
+                </a>
+                <a href="reports-products.html" class="menu-item">
+                    <i class="fas fa-chart-pie"></i> Produtos
+                </a>
+                
+                <p class="menu-title">Configurações</p>
+                <a href="settings.html" class="menu-item">
+                    <i class="fas fa-cog"></i> Configurações
+                </a>
+                <a href="#" class="menu-item" id="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Top Bar -->
+            <header class="top-bar">
+                <button class="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Pesquisar...">
+                </div>
+                
+                <div class="user-menu">
+                    <div class="notification-icon">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    
+                    <div class="user-profile">
+                        <img src="https://ui-avatars.com/api/?name=Admin&background=e74c3c&color=fff" alt="Admin" class="user-avatar">
+                        <span id="user-name">Admin</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Conteúdo do Dashboard -->
+            <div class="dashboard-content">
+                <h1 class="page-title">Dashboard</h1>
+                
+                <!-- Cards de Estatísticas -->
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div>
+                                <div class="stat-card-value" id="total-orders">0</div>
+                                <div class="stat-card-label">Total de Pedidos</div>
+                            </div>
+                            <div class="stat-card-icon primary">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-footer">
+                            <span class="text-success"><i class="fas fa-arrow-up"></i> 12%</span> em relação ao mês passado
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div>
+                                <div class="stat-card-value" id="total-revenue">R$ 0,00</div>
+                                <div class="stat-card-label">Receita Total</div>
+                            </div>
+                            <div class="stat-card-icon success">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-footer">
+                            <span class="text-success"><i class="fas fa-arrow-up"></i> 8%</span> em relação ao mês passado
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div>
+                                <div class="stat-card-value" id="total-customers">0</div>
+                                <div class="stat-card-label">Total de Clientes</div>
+                            </div>
+                            <div class="stat-card-icon warning">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-footer">
+                            <span class="text-success"><i class="fas fa-arrow-up"></i> 5%</span> em relação ao mês passado
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-card-header">
+                            <div>
+                                <div class="stat-card-value" id="pending-orders">0</div>
+                                <div class="stat-card-label">Pedidos Pendentes</div>
+                            </div>
+                            <div class="stat-card-icon danger">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card-actions">
+                            <a href="orders.html?status=pending" class="btn btn-sm btn-primary">Ver Pedidos</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gráficos -->
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Vendas Mensais</h3>
+                                <div class="card-actions">
+                                    <select class="form-control form-control-sm">
+                                        <option>2023</option>
+                                        <option>2022</option>
+                                        <option>2021</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="sales-chart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Categorias Mais Vendidas</h3>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="categories-chart" height="250"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Pedidos Recentes -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Pedidos Recentes</h3>
+                        <a href="orders.html" class="btn-view-all">Ver Todos <i class="fas fa-arrow-right"></i></a>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="recent-orders-table">
+                                <thead>
+                                    <tr>
+                                        <th># Pedido</th>
+                                        <th>Cliente</th>
+                                        <th>Data</th>
+                                        <th>Total</th>
+                                        <th>Status</th>
+                                        <th class="text-right">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Os dados serão preenchidos via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Atividades Recentes -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Atividades Recentes</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="activity-feed">
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-primary">
+                                            <i class="fas fa-shopping-cart"></i>
+                                        </div>
+                                        <div class="activity-details">
+                                            <h4>Novo Pedido #ORD-0123</h4>
+                                            <p>Cliente: João Silva • 5 itens • R$ 89,90</p>
+                                            <span class="text-muted">Há 5 minutos</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-success">
+                                            <i class="fas fa-check"></i>
+                                        </div>
+                                        <div class="activity-details">
+                                            <h4>Pedido #ORD-0122 Entregue</h4>
+                                            <p>Cliente: Maria Santos • 3 itens • R$ 75,50</p>
+                                            <span class="text-muted">Há 1 hora</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-warning">
+                                            <i class="fas fa-exclamation"></i>
+                                        </div>
+                                        <div class="activity-details">
+                                            <h4>Pedido #ORD-0121 Cancelado</h4>
+                                            <p>Cliente: Carlos Ferreira • 2 itens • R$ 65,80</p>
+                                            <span class="text-muted">Há 3 horas</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="activity-item">
+                                        <div class="activity-icon bg-info">
+                                            <i class="fas fa-comment"></i>
+                                        </div>
+                                        <div class="activity-details">
+                                            <h4>Novo Comentário</h4>
+                                            <p>Cliente: Ana Oliveira deixou uma avaliação de 5 estrelas</p>
+                                            <span class="text-muted">Há 5 horas</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Produtos Mais Vendidos</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="top-products">
+                                    <div class="product-item">
+                                        <div class="product-image">
+                                            <img src="../images/pizza1.jpg" alt="Pizza">
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Pizza Margherita</h4>
+                                            <div class="product-meta">
+                                                <span class="product-price">R$ 49,90</span>
+                                                <span class="product-sales">128 vendas</span>
+                                            </div>
+                                            <div class="product-progress">
+                                                <div class="progress-bar" style="width: 85%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="product-item">
+                                        <div class="product-image">
+                                            <img src="../images/pizza2.jpg" alt="Pizza">
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Pizza Pepperoni</h4>
+                                            <div class="product-meta">
+                                                <span class="product-price">R$ 54,90</span>
+                                                <span class="product-sales">98 vendas</span>
+                                            </div>
+                                            <div class="product-progress">
+                                                <div class="progress-bar" style="width: 75%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="product-item">
+                                        <div class="product-image">
+                                            <img src="../images/pizza3.jpg" alt="Pizza">
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Pizza Quatro Queijos</h4>
+                                            <div class="product-meta">
+                                                <span class="product-price">R$ 52,90</span>
+                                                <span class="product-sales">87 vendas</span>
+                                            </div>
+                                            <div class="product-progress">
+                                                <div class="progress-bar" style="width: 65%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="product-item">
+                                        <div class="product-image">
+                                            <img src="../images/pizza4.jpg" alt="Pizza">
+                                        </div>
+                                        <div class="product-details">
+                                            <h4>Pizza Portuguesa</h4>
+                                            <div class="product-meta">
+                                                <span class="product-price">R$ 56,90</span>
+                                                <span class="product-sales">76 vendas</span>
+                                            </div>
+                                            <div class="product-progress">
+                                                <div class="progress-bar" style="width: 55%;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Rodapé -->
+            <footer class="main-footer">
+                <div class="footer-content">
+                    <div class="footer-left">
+                        <p>&copy; 2023 Pizzaria Delícia. Todos os direitos reservados.</p>
+                    </div>
+                    <div class="footer-right">
+                        <p>Versão 1.0.0</p>
+                    </div>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>
